@@ -8,7 +8,7 @@ public class DialogTrigger : MonoBehaviour
     [SerializeField] private DialogManagerB dialogManajer;
 
 
-    [SerializeField] private GameObject tandaTanya;
+    
 
     
 
@@ -16,7 +16,24 @@ public class DialogTrigger : MonoBehaviour
     private bool triggered;
 
 
-    private void Update()
+
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player") && !triggered ) {
+            dialogManajer.TriggerStartDialog();
+            triggered = true;
+        }
+    }
+
+    
+
+
+
+    //[SerializeField] private GameObject tandaTanya;
+
+
+    /*private void Update()
     {
         if (tandaTanya.activeSelf) {
             if (Input.GetKeyUp(KeyCode.Z))
@@ -42,12 +59,12 @@ public class DialogTrigger : MonoBehaviour
         
         
 
-        /*if (other.CompareTag("Player") && !triggered)
+        *//*if (other.CompareTag("Player") && !triggered)
         {
             //start dialog
             dialogManajer.TriggerStartDialog();
             triggered = true;
-        }*/
+        }*//*
 
 
     }
@@ -76,13 +93,13 @@ public class DialogTrigger : MonoBehaviour
 
 
 
-        /*if (other.CompareTag("Player") && !triggered)
+        *//*if (other.CompareTag("Player") && !triggered)
         {
             //start dialog
             dialogManajer.TriggerStartDialog();
             triggered = true;
-        }*/
-    }
+        }*//*
+    }*/
 
 
 

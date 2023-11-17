@@ -47,8 +47,7 @@ public class DialogManagerB : MonoBehaviour
 
     private float speechBubbleAnimationDelay = 0.6f;
 
-    private int soundnumberPlayer;
-    private int soundnumberNpc;
+    
 
 
     private PlayerMovement movementScript;
@@ -58,6 +57,9 @@ public class DialogManagerB : MonoBehaviour
     {
         
         movementScript = FindAnyObjectByType<PlayerMovement>();
+    }
+
+    public void TriggerStartDialog() {
         StartCoroutine(StartDialog());
     }
 
@@ -66,7 +68,7 @@ public class DialogManagerB : MonoBehaviour
     {
         if (playerContinueButton.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.Z))
             {
                 TriggerContinueNpcDialog();
             }
@@ -74,7 +76,7 @@ public class DialogManagerB : MonoBehaviour
 
         if (npcContinueButton.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.Z))
             {
                 TriggerContinuePlayerDialog();
             }
@@ -85,6 +87,8 @@ public class DialogManagerB : MonoBehaviour
 
     public IEnumerator StartDialog()
     {
+
+        movementScript.ToggleIntercation();
 
         
         if (PlayerSpeakingFirst)
@@ -168,20 +172,17 @@ public class DialogManagerB : MonoBehaviour
         
 
         
-        if (playerIndex < playerDialogSentences.Length - 1) {
-            if(dialogStart)
-            {
-                playerIndex++;
+        
+        if(dialogStart)
+        {
+            playerIndex++;
 
-            }
-            else
-            {
-                dialogStart = true;
-            }
-            playerDialogText.text = string.Empty;
-            StartCoroutine (TypePlayerDialog());
-            
+        } else {
+            dialogStart = true;
         }
+        StartCoroutine (TypePlayerDialog());
+            
+        
 
         
     }
@@ -204,20 +205,19 @@ public class DialogManagerB : MonoBehaviour
 
         
 
-        if (npcIndex < npcDialogSentences.Length - 1)
+        
+        if (dialogStart)
         {
-            if (dialogStart)
-            {
-                npcIndex++;
-
-            }
-            else
-            {
-                dialogStart = true;
-            }
-            StartCoroutine(TypeNpcDialog());
+            npcIndex++;
 
         }
+        else
+        {
+            dialogStart = true;
+        }
+        StartCoroutine(TypeNpcDialog());
+
+        
 
     }
 
@@ -231,6 +231,8 @@ public class DialogManagerB : MonoBehaviour
             npcDialogText.text = string.Empty;
 
             npcSpeechBubbleAnimator.SetTrigger("Close");
+
+            movementScript.ToggleIntercation();
         }
         else
         {
@@ -249,6 +251,8 @@ public class DialogManagerB : MonoBehaviour
             playerDialogText.text = string.Empty;
 
             PlayerSpeechBubbleAnimator.SetTrigger("Close");
+
+            movementScript.ToggleIntercation();
         }
         else
         {
