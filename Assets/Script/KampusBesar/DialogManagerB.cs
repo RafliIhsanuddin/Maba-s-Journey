@@ -61,6 +61,7 @@ public class DialogManagerB : MonoBehaviour
 
     public void TriggerStartDialog() {
         StartCoroutine(StartDialog());
+        movementScript.NotRun();
     }
 
 

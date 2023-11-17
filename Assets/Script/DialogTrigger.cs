@@ -8,9 +8,9 @@ public class DialogTrigger : MonoBehaviour
     [SerializeField] private DialogManagerB dialogManajer;
 
 
-    
 
-    
+    [SerializeField] private GameObject tandaTanya;
+
 
 
     private bool triggered;
@@ -18,24 +18,25 @@ public class DialogTrigger : MonoBehaviour
 
 
 
-    private void OnTriggerEnter2D(Collider2D other)
+    /*private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && !triggered ) {
             dialogManajer.TriggerStartDialog();
             triggered = true;
         }
-    }
-
-    
+    }*/
 
 
 
-    //[SerializeField] private GameObject tandaTanya;
 
 
-    /*private void Update()
+
+
+
+    private void Update()
     {
-        if (tandaTanya.activeSelf) {
+        if (tandaTanya.activeSelf)
+        {
             if (Input.GetKeyUp(KeyCode.Z))
             {
                 Debug.Log("Z key pressed");
@@ -43,28 +44,28 @@ public class DialogTrigger : MonoBehaviour
                 startDialog();
             }
         }
-           
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
 
-        
-        
+
+
         if (other.CompareTag("Player")) // Replace "YourTag" with the appropriate tag for the object you want to trigger this
         {
             Debug.Log("Trigger entered");
             tandaTanya.SetActive(true);
         }
-        
-        
 
-        *//*if (other.CompareTag("Player") && !triggered)
+
+
+        /*if (other.CompareTag("Player") && !triggered)
         {
             //start dialog
             dialogManajer.TriggerStartDialog();
             triggered = true;
-        }*//*
+        }*/
 
 
     }
@@ -87,19 +88,19 @@ public class DialogTrigger : MonoBehaviour
         if (!triggered)
         {
             //start dialog
-            //dialogManajer.TriggerStartDialog();
+            dialogManajer.TriggerStartDialog();
             triggered = true;
         }
 
 
 
-        *//*if (other.CompareTag("Player") && !triggered)
+        /*if (other.CompareTag("Player") && !triggered)
         {
             //start dialog
             dialogManajer.TriggerStartDialog();
             triggered = true;
-        }*//*
-    }*/
+        }*/
+    }
 
 
 
