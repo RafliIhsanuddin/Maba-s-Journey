@@ -53,6 +53,11 @@ public class DialogManagerB : MonoBehaviour
     private PlayerMovement movementScript;
 
 
+
+    private bool PlayerdialogFinished;
+    private bool npcdialogFinished;
+
+
     private void Start()
     {
         
@@ -67,21 +72,45 @@ public class DialogManagerB : MonoBehaviour
 
     private void Update()
     {
-        if (playerContinueButton.activeSelf)
+
+        if (PlayerdialogFinished)
         {
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyUp(KeyCode.Z))
             {
                 TriggerContinueNpcDialog();
             }
         }
 
-        if (npcContinueButton.activeSelf)
+
+        /*if (playerContinueButton.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                TriggerContinueNpcDialog();
+            }
+        }*/
+
+
+        if (npcdialogFinished)
+        {
+            if (Input.GetKeyUp(KeyCode.Z))
+            {
+                TriggerContinuePlayerDialog();
+            }
+        }
+
+
+
+        /*if (npcContinueButton.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 TriggerContinuePlayerDialog();
             }
-        }
+        }*/
+
+        
+
     }
 
 
@@ -127,8 +156,9 @@ public class DialogManagerB : MonoBehaviour
             }
         }
 
-        playerContinueButton.SetActive(true);
-          
+        /*playerContinueButton.SetActive(true);*/
+        PlayerdialogFinished = true;
+
     }
 
     private IEnumerator TypeNpcDialog()
@@ -152,7 +182,12 @@ public class DialogManagerB : MonoBehaviour
 
 
         }
-        npcContinueButton.SetActive(true);
+        /*npcContinueButton.SetActive(true);*/
+
+        npcdialogFinished = true;
+
+
+
     }
 
 
@@ -226,7 +261,11 @@ public class DialogManagerB : MonoBehaviour
     public void TriggerContinuePlayerDialog()
     {
 
-        npcContinueButton.SetActive(false);
+        /*npcContinueButton.SetActive(false);*/
+
+        npcdialogFinished = false;
+
+
         if (playerIndex >= playerDialogSentences.Length - 1)
         {
             npcDialogText.text = string.Empty;
@@ -246,7 +285,9 @@ public class DialogManagerB : MonoBehaviour
     public void TriggerContinueNpcDialog()
     {
 
-        playerContinueButton.SetActive(false);
+        /*playerContinueButton.SetActive(false);*/
+        PlayerdialogFinished = false;
+
         if (npcIndex >= npcDialogSentences.Length - 1)
         {
             playerDialogText.text = string.Empty;
