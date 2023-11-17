@@ -51,17 +51,41 @@ public class DialogManagerB : MonoBehaviour
     private int soundnumberNpc;
 
 
+    private PlayerMovement movementScript;
 
 
     private void Start()
     {
+        
+        movementScript = FindAnyObjectByType<PlayerMovement>();
         StartCoroutine(StartDialog());
     }
 
-    
+
+    private void Update()
+    {
+        if (playerContinueButton.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                TriggerContinueNpcDialog();
+            }
+        }
+
+        if (npcContinueButton.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                TriggerContinuePlayerDialog();
+            }
+        }
+    }
+
+
 
     public IEnumerator StartDialog()
     {
+
         
         if (PlayerSpeakingFirst)
         {
@@ -141,7 +165,7 @@ public class DialogManagerB : MonoBehaviour
 
         yield return new WaitForSeconds(speechBubbleAnimationDelay);
 
-        npcContinueButton.SetActive(false);
+        
 
         
         if (playerIndex < playerDialogSentences.Length - 1) {
@@ -178,7 +202,7 @@ public class DialogManagerB : MonoBehaviour
 
         yield return new WaitForSeconds(speechBubbleAnimationDelay);
 
-        playerContinueButton.SetActive(false);
+        
 
         if (npcIndex < npcDialogSentences.Length - 1)
         {
@@ -201,14 +225,36 @@ public class DialogManagerB : MonoBehaviour
     public void TriggerContinuePlayerDialog()
     {
 
-        StartCoroutine(ContinuePlayerDialog());
+        npcContinueButton.SetActive(false);
+        if (playerIndex >= playerDialogSentences.Length - 1)
+        {
+            npcDialogText.text = string.Empty;
+
+            npcSpeechBubbleAnimator.SetTrigger("Close");
+        }
+        else
+        {
+            StartCoroutine(ContinuePlayerDialog());
+        }
+        
 
     }
 
     public void TriggerContinueNpcDialog()
     {
 
-        StartCoroutine(ContinueNpcDialog());
+        playerContinueButton.SetActive(false);
+        if (npcIndex >= npcDialogSentences.Length - 1)
+        {
+            playerDialogText.text = string.Empty;
+
+            PlayerSpeechBubbleAnimator.SetTrigger("Close");
+        }
+        else
+        {
+            StartCoroutine(ContinueNpcDialog());
+        }
+        
         
     }
 
