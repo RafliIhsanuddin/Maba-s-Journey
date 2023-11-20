@@ -32,12 +32,53 @@ public class DialogTriggerPart2 : MonoBehaviour
             Vector3 currentScale = Player.transform.localScale;
             Player.transform.localScale = new Vector3(0.5f, currentScale.y, currentScale.z);
         }
+        /*else if (other.CompareTag("Player") && triggered)
+        {
+            // Jika karakter terkena trigger lagi, reset status triggered
+            triggered = false;
+        }*/
 
         /*if (other.CompareTag("Player"))
         {
             dialogPanitiaPenjaga.TriggerStartDialog();
         }*/
     }
+
+
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            triggered = false;
+        }
+    }
+
+
+
+    /*private void OnTriggerExit2D(Collider2D other)
+    {
+
+        if (other.CompareTag("Player") && !triggered)
+        {
+            dialogPanitiaPenjaga.TriggerStartDialog();
+            triggered = true;
+
+            // Mengubah skala x dari objek Player menjadi 0.5
+            Vector3 currentScale = Player.transform.localScale;
+            Player.transform.localScale = new Vector3(0.5f, currentScale.y, currentScale.z);
+        }
+        else if (other.CompareTag("Player") && triggered)
+        {
+            // Jika karakter terkena trigger lagi, reset status triggered
+            triggered = false;
+        }
+
+        *//*if (other.CompareTag("Player"))
+        {
+            dialogPanitiaPenjaga.TriggerStartDialog();
+        }*//*
+    }*/
 
 
     /*IEnumerator EnableTriggerAfterDelay(float delay)

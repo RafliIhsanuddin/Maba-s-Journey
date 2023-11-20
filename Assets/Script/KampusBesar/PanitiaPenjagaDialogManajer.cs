@@ -71,6 +71,7 @@ public class PanitiaPenjagaDialogManajer : MonoBehaviour
         
 
         movementScript = FindObjectOfType<PlayerMovement>();
+
     }
 
     public void TriggerStartDialog()
@@ -102,7 +103,7 @@ public class PanitiaPenjagaDialogManajer : MonoBehaviour
                 if (dialogSelesai == 2)
                 {
                     Debug.Log("Berhasil selesai");
-                    movementScript.MoveToPositionPenjaga();
+                    //movementScript.MoveToPositionPenjaga();
                 }
             }
         }
