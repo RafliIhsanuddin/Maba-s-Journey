@@ -2,12 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
-using System.Transactions;
 
-public class DialogManagerB : MonoBehaviour
+public class PanitiaPenjagaDialogManajer : MonoBehaviour
 {
-
     [SerializeField] private float typingSpeed = 0.05f;
 
     [SerializeField] private bool PlayerSpeakingFirst;
@@ -20,6 +17,10 @@ public class DialogManagerB : MonoBehaviour
     [Header("Continue Buttons")]
     [SerializeField] private GameObject playerContinueButton;
     [SerializeField] private GameObject npcContinueButton;
+
+
+    [Header("Dialog Trigger")]
+    [SerializeField] private DialogTriggerPart2 dialogTriggerPart2;
 
 
     [Header("UIAudioSource")]
@@ -40,6 +41,9 @@ public class DialogManagerB : MonoBehaviour
     [TextArea]
     [SerializeField] private string[] npcDialogSentences;
 
+
+    
+
     private bool dialogStart;
 
     private int playerIndex;
@@ -47,7 +51,7 @@ public class DialogManagerB : MonoBehaviour
 
     private float speechBubbleAnimationDelay = 0.6f;
 
-    
+
 
 
     private PlayerMovement movementScript;
@@ -57,14 +61,28 @@ public class DialogManagerB : MonoBehaviour
     private bool PlayerdialogFinished;
     private bool npcdialogFinished;
 
+    private int dialogSelesai;
+
+
+
 
     private void Start()
     {
+        
 
         movementScript = FindObjectOfType<PlayerMovement>();
     }
 
-    public void TriggerStartDialog() {
+    public void TriggerStartDialog()
+    {
+        playerIndex = 0;
+        npcIndex = 0;
+        dialogStart = false;
+
+        playerDialogText.rectTransform.localScale = new Vector3(-0.0697239f,
+                                                   playerDialogText.rectTransform.localScale.y,
+                                                   playerDialogText.rectTransform.localScale.z);
+
         StartCoroutine(StartDialog());
         movementScript.NotRun();
     }
@@ -78,17 +96,21 @@ public class DialogManagerB : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.Z))
             {
                 TriggerContinueNpcDialog();
+                tambahDialog();
+                Debug.Log(dialogSelesai);
+
+                if (dialogSelesai == 2)
+                {
+                    Debug.Log("Berhasil selesai");
+                    movementScript.MoveToPositionPenjaga();
+                }
             }
         }
 
+        
 
-        /*if (playerContinueButton.activeSelf)
-        {
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                TriggerContinueNpcDialog();
-            }
-        }*/
+
+        
 
 
         if (npcdialogFinished)
@@ -101,33 +123,33 @@ public class DialogManagerB : MonoBehaviour
 
 
 
-        /*if (npcContinueButton.activeSelf)
-        {
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                TriggerContinuePlayerDialog();
-            }
-        }*/
-
         
+
+
 
     }
 
-
+    private void tambahDialog()
+    {
+        dialogSelesai++;
+    }
 
     public IEnumerator StartDialog()
     {
 
         movementScript.ToggleIntercation();
 
-        
+
         if (PlayerSpeakingFirst)
         {
+            
             PlayerSpeechBubbleAnimator.SetTrigger("Open");
 
             yield return new WaitForSeconds(speechBubbleAnimationDelay);
             StartCoroutine(TypePlayerDialog());
-        } else {
+        }
+        else
+        {
             npcSpeechBubbleAnimator.SetTrigger("Open");
 
             yield return new WaitForSeconds(speechBubbleAnimationDelay);
@@ -137,6 +159,8 @@ public class DialogManagerB : MonoBehaviour
 
     private IEnumerator TypePlayerDialog()
     {
+
+        
 
         int totalCharacters = playerDialogSentences[playerIndex].Length;
         int currentCharacterIn = 0;
@@ -155,6 +179,9 @@ public class DialogManagerB : MonoBehaviour
                 UIAudioSource.Stop();
             }
         }
+
+
+        //playerDialogText.transform.localScale = new Vector3(1f, 1f, 1f);
 
         /*playerContinueButton.SetActive(true);*/
         PlayerdialogFinished = true;
@@ -205,22 +232,38 @@ public class DialogManagerB : MonoBehaviour
 
         yield return new WaitForSeconds(speechBubbleAnimationDelay);
 
-        
 
-        
-        
-        if(dialogStart)
+
+
+
+        if (dialogStart)
         {
             playerIndex++;
 
-        } else {
+        }
+        else
+        {
             dialogStart = true;
         }
-        StartCoroutine (TypePlayerDialog());
-            
-        
+        StartCoroutine(TypePlayerDialog());
 
-        
+        /*if (npcIndex >= npcDialogSentences.Length - 1)
+        {
+            movementScript.MoveToPositionPenjaga();
+
+            // Wait until the player reaches the target position
+            while (Vector2.Distance(transform.position, new Vector2(5.878362f, transform.position.y)) > 0.01f)
+            {
+                yield return null;
+            }
+
+            // Close the speech bubble animation and activate player input
+            npcSpeechBubbleAnimator.SetTrigger("Close");
+            movementScript.InputActive();
+        }*/
+
+
+
     }
 
 
@@ -239,9 +282,9 @@ public class DialogManagerB : MonoBehaviour
 
         yield return new WaitForSeconds(speechBubbleAnimationDelay);
 
-        
 
-        
+
+
         if (dialogStart)
         {
             npcIndex++;
@@ -253,7 +296,21 @@ public class DialogManagerB : MonoBehaviour
         }
         StartCoroutine(TypeNpcDialog());
 
-        
+        /*if (playerIndex >= playerDialogSentences.Length - 1)
+        {
+            // Call MoveToPosition when the player dialog is finished
+            movementScript.MoveToPositionPenjaga();
+
+            // Wait until the player reaches the target position
+            while (Vector2.Distance(transform.position, new Vector2(5.878362f, transform.position.y)) > 0.01f)
+            {
+                yield return null;
+            }
+
+            // Close the speech bubble animation and activate player input
+            PlayerSpeechBubbleAnimator.SetTrigger("Close");
+            movementScript.InputActive();
+        }*/
 
     }
 
@@ -262,6 +319,12 @@ public class DialogManagerB : MonoBehaviour
     {
 
         /*npcContinueButton.SetActive(false);*/
+
+
+        
+
+
+
 
         npcdialogFinished = false;
 
@@ -278,9 +341,10 @@ public class DialogManagerB : MonoBehaviour
         {
             StartCoroutine(ContinuePlayerDialog());
         }
-        
+
 
     }
+
 
     public void TriggerContinueNpcDialog()
     {
@@ -300,17 +364,16 @@ public class DialogManagerB : MonoBehaviour
         {
             StartCoroutine(ContinueNpcDialog());
         }
-        
-        
+
+
     }
 
 
-    // Start is called before the first frame update
+    
 
 
-    // Update is called once per frame
-    /*void Update()
-    {
-        
-    }*/
+
+
+
+
 }

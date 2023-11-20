@@ -5,7 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using System.Transactions;
 
-public class DialogManagerB : MonoBehaviour
+public class SupriDM : MonoBehaviour
 {
 
     [SerializeField] private float typingSpeed = 0.05f;
@@ -58,6 +58,7 @@ public class DialogManagerB : MonoBehaviour
     private bool npcdialogFinished;
 
 
+
     private void Start()
     {
 
@@ -65,6 +66,18 @@ public class DialogManagerB : MonoBehaviour
     }
 
     public void TriggerStartDialog() {
+
+        playerIndex = 0;
+        npcIndex = 0;
+        dialogStart = false; // Reset dialogStart
+
+
+        playerDialogText.rectTransform.localScale = new Vector3(0.0697239f,
+                                                   playerDialogText.rectTransform.localScale.y,
+                                                   playerDialogText.rectTransform.localScale.z);
+
+
+
         StartCoroutine(StartDialog());
         movementScript.NotRun();
     }
@@ -121,6 +134,8 @@ public class DialogManagerB : MonoBehaviour
         movementScript.ToggleIntercation();
 
         
+
+
         if (PlayerSpeakingFirst)
         {
             PlayerSpeechBubbleAnimator.SetTrigger("Open");
@@ -239,9 +254,9 @@ public class DialogManagerB : MonoBehaviour
 
         yield return new WaitForSeconds(speechBubbleAnimationDelay);
 
-        
 
-        
+
+
         if (dialogStart)
         {
             npcIndex++;
@@ -254,6 +269,9 @@ public class DialogManagerB : MonoBehaviour
         StartCoroutine(TypeNpcDialog());
 
         
+
+
+
 
     }
 
@@ -278,12 +296,15 @@ public class DialogManagerB : MonoBehaviour
         {
             StartCoroutine(ContinuePlayerDialog());
         }
+
+
         
 
     }
 
     public void TriggerContinueNpcDialog()
     {
+
 
         /*playerContinueButton.SetActive(false);*/
         PlayerdialogFinished = false;
@@ -300,8 +321,11 @@ public class DialogManagerB : MonoBehaviour
         {
             StartCoroutine(ContinueNpcDialog());
         }
+
+
         
-        
+
+
     }
 
 

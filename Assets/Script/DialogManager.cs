@@ -45,9 +45,9 @@ public class DialogManager : MonoBehaviour
 
     private MovementKampus playerMovementScript;
 
-    [Header("Bubble GameObject")]
+    /*[Header("Bubble GameObject")]
     [SerializeField] private GameObject playerBubble;
-    [SerializeField] private GameObject npcBubble;
+    [SerializeField] private GameObject npcBubble;*/
 
 
     private bool dialogStarted;
@@ -62,11 +62,19 @@ public class DialogManager : MonoBehaviour
 
     void Start()
     {
+
+        playerDialogText.rectTransform.localScale = new Vector3(playerDialogText.rectTransform.localScale.x * -1f,
+                                                           playerDialogText.rectTransform.localScale.y,
+                                                           playerDialogText.rectTransform.localScale.z);
+        
+
         playerMovementScript = FindAnyObjectByType<MovementKampus>();
     }
 
     public void TriggerStartDialog()
     {
+        
+
         StartCoroutine(StartDialog());
         playerMovementScript.NotRun();
     }
