@@ -15,6 +15,10 @@ public class DialogTriggerSatriya : MonoBehaviour
 
     private bool triggered;
 
+    [SerializeField] private PlayerMovement movementScript;
+
+
+
 
 
 
@@ -39,6 +43,7 @@ public class DialogTriggerSatriya : MonoBehaviour
         {
             if (Input.GetKeyUp(KeyCode.Z))
             {
+                movementScript.MoveToPositionSatriya();
                 Debug.Log("Z key pressed");
                 tandaTanya.SetActive(false);
                 startDialog();
