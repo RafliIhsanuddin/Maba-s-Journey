@@ -19,8 +19,8 @@ public class PanitiaPenjagaDialogManajer : MonoBehaviour
     [SerializeField] private GameObject npcContinueButton;
 
 
-    [Header("Dialog Trigger")]
-    [SerializeField] private DialogTriggerPart2 dialogTriggerPart2;
+    /*[Header("Dialog Trigger")]
+    [SerializeField] private DialogTriggerPart2 dialogTriggerPart2;*/
 
 
     [Header("UIAudioSource")]
@@ -79,6 +79,7 @@ public class PanitiaPenjagaDialogManajer : MonoBehaviour
         playerIndex = 0;
         npcIndex = 0;
         dialogStart = false;
+        dialogSelesai = 0;
 
         playerDialogText.rectTransform.localScale = new Vector3(-0.0697239f,
                                                    playerDialogText.rectTransform.localScale.y,
@@ -103,7 +104,7 @@ public class PanitiaPenjagaDialogManajer : MonoBehaviour
                 if (dialogSelesai == 2)
                 {
                     Debug.Log("Berhasil selesai");
-                    //movementScript.MoveToPositionPenjaga();
+                    movementScript.MoveToPositionPenjaga();
                 }
             }
         }

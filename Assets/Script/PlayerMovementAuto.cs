@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovementAuto : MonoBehaviour
 {
 
 
@@ -18,8 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private PlayerInput playerInput;
 
-    [SerializeField] Animator myAnimator;
-
+    Animator myAnimator;
 
     [SerializeField] private Transform target;
 
@@ -104,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
     public IEnumerator MoveToPositionCoroutine(Vector2 targetPosition)
     {
         // Set isWalking to true before moving
-        
+        myAnimator.SetBool("isWalking", true);
 
         // Move the player to the target position
         while (Vector2.Distance(transform.position, targetPosition) > 0.01f)
@@ -113,8 +112,8 @@ public class PlayerMovement : MonoBehaviour
 
             // Flip the sprite to face the opposite direction
             transform.localScale = new Vector2(-0.5f, 0.5f);
-            playerInput.enabled = false;
-            myAnimator.SetBool("isWalking", true);
+
+            
 
             yield return null;
         }
@@ -125,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void MoveToPositionPenjaga()
     {
+        playerInput.enabled = false;
         Vector2 targetPosition = target.position;
 
         // Stop any existing coroutine before starting a new one
