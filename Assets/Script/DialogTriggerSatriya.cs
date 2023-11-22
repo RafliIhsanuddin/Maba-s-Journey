@@ -1,6 +1,8 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DialogTriggerSatriya : MonoBehaviour
 {
@@ -10,6 +12,10 @@ public class DialogTriggerSatriya : MonoBehaviour
 
 
     [SerializeField] private GameObject tandaTanya;
+
+    [SerializeField] private PlayerInput playerInput;
+
+    [SerializeField] private Transform skala;
 
 
 
@@ -29,10 +35,7 @@ public class DialogTriggerSatriya : MonoBehaviour
             triggered = true;
         }
     }*/
-
-
-
-
+    
 
 
 
@@ -43,13 +46,48 @@ public class DialogTriggerSatriya : MonoBehaviour
         {
             if (Input.GetKeyUp(KeyCode.Z))
             {
+                playerInput.enabled = false;
+                playerInput.GetComponent<PlayerInput>().enabled = false;
                 movementScript.MoveToPositionSatriya();
                 Debug.Log("Z key pressed");
                 tandaTanya.SetActive(false);
-                startDialog();
+                
+
+
+
             }
         }
 
+        if (movementScript.Putarbicara)
+        {
+            movementScript.Putarbicara = false;
+            Vector3 currentScale = skala.transform.localScale;
+            skala.transform.localScale = new Vector3(-0.5f, currentScale.y, currentScale.z);
+            Debug.Log("bicara");
+            startDialog();
+        }
+        Debug.Log(movementScript.Putarbicara);
+
+    }
+    //Debug.Log(movementScript.putarbicara);
+    
+
+
+
+
+
+    private IEnumerator StartDialogWithDelay()
+    {
+        //playerInput.enabled = false;
+
+        playerInput.GetComponent<PlayerInput>().enabled = false;
+
+        
+
+
+        yield return new WaitForSeconds(1.8f);
+        
+        startDialog();
     }
 
     private void OnTriggerEnter2D(Collider2D other)

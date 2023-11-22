@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -18,6 +19,25 @@ public class PlayerMovement : MonoBehaviour
 
     Transform skala;
 
+
+    //DialogTriggerSatriya trigerSatriya;
+
+
+    //[SerializeField] private DialogManagerSatriya dialogManagerSatriya;
+
+
+    private bool putarbicara;
+
+    public bool Putarbicara
+    {
+        get { return putarbicara; }
+        set { putarbicara = value; }
+    }
+
+
+
+
+
     [SerializeField] private PlayerInput playerInput;
 
     [SerializeField] Animator myAnimator;
@@ -27,6 +47,13 @@ public class PlayerMovement : MonoBehaviour
 
 
     [SerializeField] private Transform targetSatriya;
+
+    [SerializeField] private Transform targetAnra;
+
+    private bool isMoving;
+
+
+    //public event Action OnMoveToPositionComplete;
 
 
 
@@ -39,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         skala = GetComponent<Transform>();
+        //trigerSatriya = GetComponent<DialogTriggerSatriya>();
     }
 
     // Update is called once per frame
@@ -113,6 +141,10 @@ public class PlayerMovement : MonoBehaviour
     public IEnumerator MoveToPositionCoroutine(Vector2 targetPosition)
     {
         // Set isWalking to true before moving
+
+
+        
+
         
 
         // Move the player to the target position
@@ -133,10 +165,23 @@ public class PlayerMovement : MonoBehaviour
 
         // Set isWalking to false after reaching the target position
         myAnimator.SetBool("isWalking", false);
+
+
+        //OnMoveToPositionComplete?.Invoke();
+
+        // Trigger the dialog after completing the movement
+        //trigerSatriya.startDialog();
+
+
+        //dialogManagerSatriya.TriggerStartDialog();
+
+        //isMoving = false;
     }
 
     public void MoveToPositionPenjaga()
     {
+
+        Debug.Log("MoveToPositionPenjaga Called");
         Vector2 targetPosition = target.position;
 
         // Stop any existing coroutine before starting a new one
@@ -172,11 +217,57 @@ public class PlayerMovement : MonoBehaviour
         Vector3 currentScale = skala.transform.localScale;
         skala.transform.localScale = new Vector3(-0.5f, currentScale.y, currentScale.z);
 
+        putarbicara = true;
+
         // Set isWalking to false after reaching the target position
         myAnimator.SetBool("isWalking", false);
     }
 
     public void MoveToPositionSatriya()
+    {
+        Vector2 targetPosition = targetSatriya.position;
+
+        // Stop any existing coroutine before starting a new one
+        StopAllCoroutines();
+
+        // Start the coroutine to move to the target position
+        StartCoroutine(MoveToPositionCorSatriya(targetPosition));
+    }
+
+
+
+
+    public IEnumerator MoveToPositionCorAnra(Vector2 targetPosition)
+    {
+        // Set isWalking to true before moving
+
+
+        // Move the player to the target position
+        while (Vector2.Distance(transform.position, targetPosition) > 0.01f)
+        {
+            float horizontalMovement = Mathf.Sign(targetPosition.x - transform.position.x);
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, runSpeed * Time.deltaTime);
+
+            // Flip the sprite based on the direction of movement
+            transform.localScale = new Vector2(0.5f * horizontalMovement, 0.5f);
+
+            myAnimator.SetBool("isWalking", true);
+
+            playerInput.enabled = false;
+
+            yield return null;
+        }
+
+        Vector3 currentScale = skala.transform.localScale;
+        skala.transform.localScale = new Vector3(-0.5f, currentScale.y, currentScale.z);
+
+        putarbicara = true;
+
+        // Set isWalking to false after reaching the target position
+        myAnimator.SetBool("isWalking", false);
+    }
+
+    public void MoveToPositionAnra()
     {
         Vector2 targetPosition = targetSatriya.position;
 

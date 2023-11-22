@@ -79,7 +79,6 @@ public class PanitiaPenjagaDialogManajer : MonoBehaviour
         playerIndex = 0;
         npcIndex = 0;
         dialogStart = false;
-        dialogSelesai = 0;
 
         playerDialogText.rectTransform.localScale = new Vector3(-0.0697239f,
                                                    playerDialogText.rectTransform.localScale.y,
@@ -105,14 +104,16 @@ public class PanitiaPenjagaDialogManajer : MonoBehaviour
                 {
                     Debug.Log("Berhasil selesai");
                     movementScript.MoveToPositionPenjaga();
+
+                    StartCoroutine(ResetDialogSelesaiAfterDelay(1f));
                 }
             }
         }
+        //Debug.Log(dialogSelesai);
 
-        
 
 
-        
+
 
 
         if (npcdialogFinished)
@@ -129,6 +130,13 @@ public class PanitiaPenjagaDialogManajer : MonoBehaviour
 
 
 
+    }
+
+
+    private IEnumerator ResetDialogSelesaiAfterDelay(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        dialogSelesai = 0;
     }
 
     private void tambahDialog()
