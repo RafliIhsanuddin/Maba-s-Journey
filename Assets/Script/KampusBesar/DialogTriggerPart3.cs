@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogTriggerPart2 : MonoBehaviour
+public class DialogTriggerPart3 : MonoBehaviour
 {
 
 
-    [SerializeField] private GameObject Player;
+    [SerializeField] public GameObject Player;
 
-    [SerializeField] private PanitiaPenjagaDialogManajer dialogPanitiaPenjaga;
+    [SerializeField] public PanitiaPenjagaDialogSelesai dialogPanitiaPenjaga;
 
     private bool triggered;
 
@@ -27,10 +27,9 @@ public class DialogTriggerPart2 : MonoBehaviour
 
     }
 
-
     private void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)

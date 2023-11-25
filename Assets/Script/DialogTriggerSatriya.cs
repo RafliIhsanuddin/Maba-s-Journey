@@ -49,7 +49,7 @@ public class DialogTriggerSatriya : MonoBehaviour
                 playerInput.enabled = false;
                 playerInput.GetComponent<PlayerInput>().enabled = false;
                 movementScript.MoveToPositionSatriya();
-                Debug.Log("Z key pressed");
+                //Debug.Log("Z key pressed");
                 tandaTanya.SetActive(false);
                 
 
@@ -63,10 +63,10 @@ public class DialogTriggerSatriya : MonoBehaviour
             movementScript.Putarbicara = false;
             Vector3 currentScale = skala.transform.localScale;
             skala.transform.localScale = new Vector3(-0.5f, currentScale.y, currentScale.z);
-            Debug.Log("bicara");
+            //Debug.Log("bicara");
             startDialog();
         }
-        Debug.Log(movementScript.Putarbicara);
+        //Debug.Log(movementScript.Putarbicara);
 
     }
     //Debug.Log(movementScript.putarbicara);

@@ -53,14 +53,31 @@ public class DialogManagerSatriya : MonoBehaviour
     private PlayerMovement movementScript;
 
 
+    private int dialogSelesai;
+
+
+    bool sudahBicara;
+
+
 
     private bool PlayerdialogFinished;
     private bool npcdialogFinished;
 
 
 
+    void Awake()
+    {
+        LoadBicara();
+
+        sudahBicara = false;
+    }
+
+
+
     private void Start()
     {
+
+        
 
         movementScript = FindObjectOfType<PlayerMovement>();
     }
@@ -82,9 +99,13 @@ public class DialogManagerSatriya : MonoBehaviour
         movementScript.NotRun();
     }
 
+    
+
 
     private void Update()
     {
+
+        //Debug.Log(GetSudahBicaraSatriya());
 
         if (PlayerdialogFinished)
         {
@@ -108,9 +129,24 @@ public class DialogManagerSatriya : MonoBehaviour
         {
             if (Input.GetKeyUp(KeyCode.Z))
             {
+
+                
                 TriggerContinuePlayerDialog();
+                tambahDialog();
+
+                if (dialogSelesai == 2)
+                {
+                    SetSudahBicara(true);
+                    SaveBicara();
+                }
+                //sudahBicara = true;
+                //Debug.Log(dialogSelesai);
+                //Debug.Log(sudahBicara);
             }
         }
+
+
+        //Debug.Log(GetSudahBicaraSatriya());
 
 
 
@@ -124,6 +160,40 @@ public class DialogManagerSatriya : MonoBehaviour
 
         
 
+    }
+
+
+    public void SetSudahBicara(bool value)
+    {
+        sudahBicara = value;
+        SaveBicara(); // Simpan nilai sudahBicara ke PlayerPrefs setelah diubah
+    }
+
+
+    void SaveBicara()
+    {
+        PlayerPrefs.SetInt("sudahBicara", sudahBicara ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    void LoadBicara()
+    {
+        sudahBicara = PlayerPrefs.GetInt("sudahBicara", 0) == 1;
+    }
+
+
+    public bool GetSudahBicaraSatriya()
+    {
+        return sudahBicara;
+    }
+
+
+
+
+
+    private void tambahDialog()
+    {
+        dialogSelesai++;
     }
 
 

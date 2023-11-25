@@ -37,6 +37,26 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+    private bool putarbicaraAnra;
+
+    public bool PutarbicaraAnra
+    {
+        get { return putarbicaraAnra; }
+        set { putarbicaraAnra = value; }
+    }
+
+
+
+    private bool putarbicaraSupri;
+
+    public bool PutarbicaraSupri
+    {
+        get { return putarbicaraSupri; }
+        set { putarbicaraSupri = value; }
+    }
+
+
+
 
     [SerializeField] private PlayerInput playerInput;
 
@@ -50,6 +70,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Transform targetAnra;
 
+
+    [SerializeField] private Transform targetSupri;
     private bool isMoving;
 
 
@@ -237,6 +259,9 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+
+
+
     public IEnumerator MoveToPositionCorAnra(Vector2 targetPosition)
     {
         // Set isWalking to true before moving
@@ -261,7 +286,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 currentScale = skala.transform.localScale;
         skala.transform.localScale = new Vector3(-0.5f, currentScale.y, currentScale.z);
 
-        putarbicara = true;
+        putarbicaraAnra = true;
 
         // Set isWalking to false after reaching the target position
         myAnimator.SetBool("isWalking", false);
@@ -269,13 +294,70 @@ public class PlayerMovement : MonoBehaviour
 
     public void MoveToPositionAnra()
     {
-        Vector2 targetPosition = targetSatriya.position;
+        Vector2 targetPosition = targetAnra.position;
 
         // Stop any existing coroutine before starting a new one
         StopAllCoroutines();
 
         // Start the coroutine to move to the target position
-        StartCoroutine(MoveToPositionCorSatriya(targetPosition));
+        StartCoroutine(MoveToPositionCorAnra(targetPosition));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public IEnumerator MoveToPositionCorSupri(Vector2 targetPosition)
+    {
+        // Set isWalking to true before moving
+
+
+        // Move the player to the target position
+        while (Vector2.Distance(transform.position, targetPosition) > 0.01f)
+        {
+            float horizontalMovement = Mathf.Sign(targetPosition.x - transform.position.x);
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, runSpeed * Time.deltaTime);
+
+            // Flip the sprite based on the direction of movement
+            transform.localScale = new Vector2(0.5f * horizontalMovement, 0.5f);
+
+            myAnimator.SetBool("isWalking", true);
+
+            playerInput.enabled = false;
+
+            yield return null;
+        }
+
+        Vector3 currentScale = skala.transform.localScale;
+        skala.transform.localScale = new Vector3(-0.5f, currentScale.y, currentScale.z);
+
+        putarbicaraSupri = true;
+
+        // Set isWalking to false after reaching the target position
+        myAnimator.SetBool("isWalking", false);
+    }
+
+    public void MoveToPositionSupri()
+    {
+        Vector2 targetPosition = targetSupri.position;
+
+        // Stop any existing coroutine before starting a new one
+        StopAllCoroutines();
+
+        // Start the coroutine to move to the target position
+        StartCoroutine(MoveToPositionCorSupri(targetPosition));
     }
 
 

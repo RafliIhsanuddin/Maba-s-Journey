@@ -5,7 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using System.Transactions;
 
-public class DialogManagerAnra : MonoBehaviour
+public class DialogManagerAnraSetelah : MonoBehaviour
 {
 
     [SerializeField] private float typingSpeed = 0.05f;
@@ -47,35 +47,18 @@ public class DialogManagerAnra : MonoBehaviour
 
     private float speechBubbleAnimationDelay = 0.6f;
 
-
     
-
-
 
 
     private PlayerMovement movementScript;
 
-    bool sudahBicaraAnra;
 
 
-
-    private int dialogSelesai;
 
 
 
     private bool PlayerdialogFinished;
     private bool npcdialogFinished;
-
-
-    void Awake()
-    {
-        LoadBicara();
-
-        sudahBicaraAnra = false;
-    }
-
-
-
 
 
 
@@ -129,14 +112,6 @@ public class DialogManagerAnra : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.Z))
             {
                 TriggerContinuePlayerDialog();
-                tambahDialog();
-                if (dialogSelesai == 3)
-                {
-                    SetSudahBicara(true);
-                    SaveBicara();
-                }
-                //sudahBicara = true;
-                Debug.Log(dialogSelesai);
             }
         }
 
@@ -153,67 +128,6 @@ public class DialogManagerAnra : MonoBehaviour
         
 
     }
-
-
-
-    public void SetSudahBicara(bool value)
-    {
-        sudahBicaraAnra = value;
-        SaveBicara(); // Simpan nilai sudahBicara ke PlayerPrefs setelah diubah
-    }
-
-
-    void SaveBicara()
-    {
-        PlayerPrefs.SetInt("sudahBicaraAnra", sudahBicaraAnra ? 1 : 0);
-        PlayerPrefs.Save();
-    }
-
-    void LoadBicara()
-    {
-        sudahBicaraAnra = PlayerPrefs.GetInt("sudahBicaraAnra", 0) == 1;
-    }
-
-
-    public bool GetSudahBicaraAnra()
-    {
-        return sudahBicaraAnra;
-    }
-
-
-
-
-
-    private void tambahDialog()
-    {
-        dialogSelesai++;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

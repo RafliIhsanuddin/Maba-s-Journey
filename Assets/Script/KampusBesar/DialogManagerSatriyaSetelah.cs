@@ -5,7 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using System.Transactions;
 
-public class DialogManagerAnra : MonoBehaviour
+public class DialogManagerSatriyaSetelah : MonoBehaviour
 {
 
     [SerializeField] private float typingSpeed = 0.05f;
@@ -47,19 +47,16 @@ public class DialogManagerAnra : MonoBehaviour
 
     private float speechBubbleAnimationDelay = 0.6f;
 
-
     
-
-
 
 
     private PlayerMovement movementScript;
 
-    bool sudahBicaraAnra;
-
-
 
     private int dialogSelesai;
+
+
+    bool sudahBicara;
 
 
 
@@ -67,20 +64,20 @@ public class DialogManagerAnra : MonoBehaviour
     private bool npcdialogFinished;
 
 
+
     void Awake()
     {
         LoadBicara();
 
-        sudahBicaraAnra = false;
+        sudahBicara = false;
     }
-
-
-
 
 
 
     private void Start()
     {
+
+        
 
         movementScript = FindObjectOfType<PlayerMovement>();
     }
@@ -102,9 +99,13 @@ public class DialogManagerAnra : MonoBehaviour
         movementScript.NotRun();
     }
 
+    
+
 
     private void Update()
     {
+
+        //Debug.Log(GetSudahBicaraSatriya());
 
         if (PlayerdialogFinished)
         {
@@ -128,17 +129,24 @@ public class DialogManagerAnra : MonoBehaviour
         {
             if (Input.GetKeyUp(KeyCode.Z))
             {
+
+                
                 TriggerContinuePlayerDialog();
                 tambahDialog();
-                if (dialogSelesai == 3)
+
+                if (dialogSelesai == 2)
                 {
                     SetSudahBicara(true);
                     SaveBicara();
                 }
                 //sudahBicara = true;
-                Debug.Log(dialogSelesai);
+                //Debug.Log(dialogSelesai);
+                //Debug.Log(sudahBicara);
             }
         }
+
+
+        //Debug.Log(GetSudahBicaraSatriya());
 
 
 
@@ -155,29 +163,28 @@ public class DialogManagerAnra : MonoBehaviour
     }
 
 
-
     public void SetSudahBicara(bool value)
     {
-        sudahBicaraAnra = value;
+        sudahBicara = value;
         SaveBicara(); // Simpan nilai sudahBicara ke PlayerPrefs setelah diubah
     }
 
 
     void SaveBicara()
     {
-        PlayerPrefs.SetInt("sudahBicaraAnra", sudahBicaraAnra ? 1 : 0);
+        PlayerPrefs.SetInt("sudahBicara", sudahBicara ? 1 : 0);
         PlayerPrefs.Save();
     }
 
     void LoadBicara()
     {
-        sudahBicaraAnra = PlayerPrefs.GetInt("sudahBicaraAnra", 0) == 1;
+        sudahBicara = PlayerPrefs.GetInt("sudahBicara", 0) == 1;
     }
 
 
-    public bool GetSudahBicaraAnra()
+    public bool GetSudahBicaraSatriya()
     {
-        return sudahBicaraAnra;
+        return sudahBicara;
     }
 
 
@@ -188,32 +195,6 @@ public class DialogManagerAnra : MonoBehaviour
     {
         dialogSelesai++;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

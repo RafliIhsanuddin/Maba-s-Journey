@@ -1,26 +1,29 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
 
-public class DialogTriggerAnra : MonoBehaviour
+public class DialogTriggerSatriyaSetelah : MonoBehaviour
 {
 
-    [SerializeField] private DialogManagerAnra dialogManajer;
+    [SerializeField] private DialogManagerSatriyaSetelah dialogManajer;
 
 
 
     [SerializeField] private GameObject tandaTanya;
 
+    [SerializeField] private PlayerInput playerInput;
+
+    [SerializeField] private Transform skala;
+
 
 
     private bool triggered;
 
-
     [SerializeField] private PlayerMovement movementScript;
 
 
-    [SerializeField] private Transform skala;
 
 
 
@@ -32,10 +35,7 @@ public class DialogTriggerAnra : MonoBehaviour
             triggered = true;
         }
     }*/
-
-
-
-
+    
 
 
 
@@ -46,22 +46,48 @@ public class DialogTriggerAnra : MonoBehaviour
         {
             if (Input.GetKeyUp(KeyCode.Z))
             {
-                Debug.Log("Z key pressed");
+                playerInput.enabled = false;
+                playerInput.GetComponent<PlayerInput>().enabled = false;
+                movementScript.MoveToPositionSatriya();
+                //Debug.Log("Z key pressed");
                 tandaTanya.SetActive(false);
-                movementScript.MoveToPositionAnra();
+                
+
+
+
             }
         }
 
-        if (movementScript.PutarbicaraAnra)
+        if (movementScript.Putarbicara)
         {
-            movementScript.PutarbicaraAnra = false;
+            movementScript.Putarbicara = false;
             Vector3 currentScale = skala.transform.localScale;
             skala.transform.localScale = new Vector3(-0.5f, currentScale.y, currentScale.z);
             //Debug.Log("bicara");
             startDialog();
         }
-        //Debug.Log("bicaraAnra" + movementScript.PutarbicaraAnra);
+        //Debug.Log(movementScript.Putarbicara);
 
+    }
+    //Debug.Log(movementScript.putarbicara);
+    
+
+
+
+
+
+    private IEnumerator StartDialogWithDelay()
+    {
+        //playerInput.enabled = false;
+
+        playerInput.GetComponent<PlayerInput>().enabled = false;
+
+        
+
+
+        yield return new WaitForSeconds(1.8f);
+        
+        startDialog();
     }
 
     private void OnTriggerEnter2D(Collider2D other)

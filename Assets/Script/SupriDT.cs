@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SupriDT : MonoBehaviour
 {
@@ -27,7 +28,11 @@ public class SupriDT : MonoBehaviour
     }*/
 
 
+    [SerializeField] private PlayerMovement movementScript;
 
+
+
+    [SerializeField] private Transform skala;
 
 
 
@@ -41,11 +46,23 @@ public class SupriDT : MonoBehaviour
             {
                 Debug.Log("Z key pressed");
                 tandaTanya.SetActive(false);
-                startDialog();
+                movementScript.MoveToPositionSupri();
             }
         }
 
+        if (movementScript.PutarbicaraSupri)
+        {
+            movementScript.PutarbicaraSupri = false;
+            Vector3 currentScale = skala.transform.localScale;
+            skala.transform.localScale = new Vector3(-0.5f, currentScale.y, currentScale.z);
+            Debug.Log("bicara");
+            startDialog();
+        }
+
     }
+
+
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {

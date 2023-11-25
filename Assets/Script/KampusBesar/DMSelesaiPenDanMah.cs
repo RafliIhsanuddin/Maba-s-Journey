@@ -2,12 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
-using System.Transactions;
 
-public class DialogManagerAnra : MonoBehaviour
+public class DMSelesaiPenDanMah : MonoBehaviour
 {
-
     [SerializeField] private float typingSpeed = 0.05f;
 
     [SerializeField] private bool PlayerSpeakingFirst;
@@ -20,6 +17,10 @@ public class DialogManagerAnra : MonoBehaviour
     [Header("Continue Buttons")]
     [SerializeField] private GameObject playerContinueButton;
     [SerializeField] private GameObject npcContinueButton;
+
+
+    /*[Header("Dialog Trigger")]
+    [SerializeField] private DialogTriggerPart2 dialogTriggerPart2;*/
 
 
     [Header("UIAudioSource")]
@@ -40,6 +41,9 @@ public class DialogManagerAnra : MonoBehaviour
     [TextArea]
     [SerializeField] private string[] npcDialogSentences;
 
+
+    
+
     private bool dialogStart;
 
     private int playerIndex;
@@ -48,55 +52,37 @@ public class DialogManagerAnra : MonoBehaviour
     private float speechBubbleAnimationDelay = 0.6f;
 
 
-    
-
-
 
 
     private PlayerMovement movementScript;
-
-    bool sudahBicaraAnra;
-
-
-
-    private int dialogSelesai;
 
 
 
     private bool PlayerdialogFinished;
     private bool npcdialogFinished;
 
-
-    void Awake()
-    {
-        LoadBicara();
-
-        sudahBicaraAnra = false;
-    }
-
-
+    private int dialogSelesai;
 
 
 
 
     private void Start()
     {
+        
 
         movementScript = FindObjectOfType<PlayerMovement>();
+
     }
 
-    public void TriggerStartDialog() {
-
+    public void TriggerStartDialog()
+    {
         playerIndex = 0;
         npcIndex = 0;
-        dialogStart = false; // Reset dialogStart
+        dialogStart = false;
 
-
-        playerDialogText.rectTransform.localScale = new Vector3(0.0697239f,
+        playerDialogText.rectTransform.localScale = new Vector3(-0.0697239f,
                                                    playerDialogText.rectTransform.localScale.y,
                                                    playerDialogText.rectTransform.localScale.z);
-
-
 
         StartCoroutine(StartDialog());
         movementScript.NotRun();
@@ -111,17 +97,23 @@ public class DialogManagerAnra : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.Z))
             {
                 TriggerContinueNpcDialog();
+                tambahDialog();
+                Debug.Log(dialogSelesai);
+
+                if (dialogSelesai == 2)
+                {
+                    Debug.Log("Berhasil selesai");
+                    movementScript.MoveToPositionPenjaga();
+
+                    StartCoroutine(ResetDialogSelesaiAfterDelay(1f));
+                }
             }
         }
+        //Debug.Log(dialogSelesai);
 
 
-        /*if (playerContinueButton.activeSelf)
-        {
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                TriggerContinueNpcDialog();
-            }
-        }*/
+
+
 
 
         if (npcdialogFinished)
@@ -129,109 +121,45 @@ public class DialogManagerAnra : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.Z))
             {
                 TriggerContinuePlayerDialog();
-                tambahDialog();
-                if (dialogSelesai == 3)
-                {
-                    SetSudahBicara(true);
-                    SaveBicara();
-                }
-                //sudahBicara = true;
-                Debug.Log(dialogSelesai);
             }
         }
 
 
 
-        /*if (npcContinueButton.activeSelf)
-        {
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                TriggerContinuePlayerDialog();
-            }
-        }*/
-
         
 
+
+
     }
 
 
-
-    public void SetSudahBicara(bool value)
+    private IEnumerator ResetDialogSelesaiAfterDelay(float delayTime)
     {
-        sudahBicaraAnra = value;
-        SaveBicara(); // Simpan nilai sudahBicara ke PlayerPrefs setelah diubah
+        yield return new WaitForSeconds(delayTime);
+        dialogSelesai = 0;
     }
-
-
-    void SaveBicara()
-    {
-        PlayerPrefs.SetInt("sudahBicaraAnra", sudahBicaraAnra ? 1 : 0);
-        PlayerPrefs.Save();
-    }
-
-    void LoadBicara()
-    {
-        sudahBicaraAnra = PlayerPrefs.GetInt("sudahBicaraAnra", 0) == 1;
-    }
-
-
-    public bool GetSudahBicaraAnra()
-    {
-        return sudahBicaraAnra;
-    }
-
-
-
-
 
     private void tambahDialog()
     {
         dialogSelesai++;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public IEnumerator StartDialog()
     {
 
         movementScript.ToggleIntercation();
 
-        
-
 
         if (PlayerSpeakingFirst)
         {
+            
             PlayerSpeechBubbleAnimator.SetTrigger("Open");
 
             yield return new WaitForSeconds(speechBubbleAnimationDelay);
             StartCoroutine(TypePlayerDialog());
-        } else {
+        }
+        else
+        {
             npcSpeechBubbleAnimator.SetTrigger("Open");
 
             yield return new WaitForSeconds(speechBubbleAnimationDelay);
@@ -241,6 +169,8 @@ public class DialogManagerAnra : MonoBehaviour
 
     private IEnumerator TypePlayerDialog()
     {
+
+        
 
         int totalCharacters = playerDialogSentences[playerIndex].Length;
         int currentCharacterIn = 0;
@@ -259,6 +189,9 @@ public class DialogManagerAnra : MonoBehaviour
                 UIAudioSource.Stop();
             }
         }
+
+
+        //playerDialogText.transform.localScale = new Vector3(1f, 1f, 1f);
 
         /*playerContinueButton.SetActive(true);*/
         PlayerdialogFinished = true;
@@ -309,22 +242,38 @@ public class DialogManagerAnra : MonoBehaviour
 
         yield return new WaitForSeconds(speechBubbleAnimationDelay);
 
-        
 
-        
-        
-        if(dialogStart)
+
+
+
+        if (dialogStart)
         {
             playerIndex++;
 
-        } else {
+        }
+        else
+        {
             dialogStart = true;
         }
-        StartCoroutine (TypePlayerDialog());
-            
-        
+        StartCoroutine(TypePlayerDialog());
 
-        
+        /*if (npcIndex >= npcDialogSentences.Length - 1)
+        {
+            movementScript.MoveToPositionPenjaga();
+
+            // Wait until the player reaches the target position
+            while (Vector2.Distance(transform.position, new Vector2(5.878362f, transform.position.y)) > 0.01f)
+            {
+                yield return null;
+            }
+
+            // Close the speech bubble animation and activate player input
+            npcSpeechBubbleAnimator.SetTrigger("Close");
+            movementScript.InputActive();
+        }*/
+
+
+
     }
 
 
@@ -357,10 +306,21 @@ public class DialogManagerAnra : MonoBehaviour
         }
         StartCoroutine(TypeNpcDialog());
 
-        
+        /*if (playerIndex >= playerDialogSentences.Length - 1)
+        {
+            // Call MoveToPosition when the player dialog is finished
+            movementScript.MoveToPositionPenjaga();
 
+            // Wait until the player reaches the target position
+            while (Vector2.Distance(transform.position, new Vector2(5.878362f, transform.position.y)) > 0.01f)
+            {
+                yield return null;
+            }
 
-
+            // Close the speech bubble animation and activate player input
+            PlayerSpeechBubbleAnimator.SetTrigger("Close");
+            movementScript.InputActive();
+        }*/
 
     }
 
@@ -369,6 +329,12 @@ public class DialogManagerAnra : MonoBehaviour
     {
 
         /*npcContinueButton.SetActive(false);*/
+
+
+        
+
+
+
 
         npcdialogFinished = false;
 
@@ -387,13 +353,11 @@ public class DialogManagerAnra : MonoBehaviour
         }
 
 
-        
-
     }
+
 
     public void TriggerContinueNpcDialog()
     {
-
 
         /*playerContinueButton.SetActive(false);*/
         PlayerdialogFinished = false;
@@ -412,18 +376,14 @@ public class DialogManagerAnra : MonoBehaviour
         }
 
 
-        
-
-
     }
 
 
-    // Start is called before the first frame update
+    
 
 
-    // Update is called once per frame
-    /*void Update()
-    {
-        
-    }*/
+
+
+
+
 }

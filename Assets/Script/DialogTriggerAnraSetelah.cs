@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class DialogTriggerAnra : MonoBehaviour
+public class DialogTriggerAnraSetelah : MonoBehaviour
 {
 
-    [SerializeField] private DialogManagerAnra dialogManajer;
+    [SerializeField] private DialogManagerAnraSetelah dialogManajer;
 
 
 
@@ -57,7 +57,7 @@ public class DialogTriggerAnra : MonoBehaviour
             movementScript.PutarbicaraAnra = false;
             Vector3 currentScale = skala.transform.localScale;
             skala.transform.localScale = new Vector3(-0.5f, currentScale.y, currentScale.z);
-            //Debug.Log("bicara");
+            Debug.Log("bicara");
             startDialog();
         }
         //Debug.Log("bicaraAnra" + movementScript.PutarbicaraAnra);
