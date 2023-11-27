@@ -64,11 +64,24 @@ public class PanitiaPenjagaDialogManajer : MonoBehaviour
     private int dialogSelesai;
 
 
+    private DialogTriggerPart3 dialogTriggerPart3;
+
+
 
 
     private void Start()
     {
-        
+
+
+        dialogTriggerPart3 = GetComponent<DialogTriggerPart3>();
+
+
+        if (dialogTriggerPart3 != null)
+        {
+            // Nonaktifkan DialogTriggerPart2 pada awal permainan
+            dialogTriggerPart3.enabled = false;
+        }
+
 
         movementScript = FindObjectOfType<PlayerMovement>();
 
@@ -84,8 +97,13 @@ public class PanitiaPenjagaDialogManajer : MonoBehaviour
                                                    playerDialogText.rectTransform.localScale.y,
                                                    playerDialogText.rectTransform.localScale.z);
 
-        StartCoroutine(StartDialog());
-        movementScript.NotRun();
+        //StartCoroutine(StartDialog());
+        //movementScript.NotRun();
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(StartDialog());
+            movementScript.NotRun();
+        }
     }
 
 

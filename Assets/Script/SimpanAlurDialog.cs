@@ -58,7 +58,7 @@ public class SimpanAlurDialog : MonoBehaviour
     //private Script1 script1;
     //private Script2 script2;
 
-    //private DialogTriggerPart3 TriggerSetelahPanitia;
+    private DialogTriggerPart3 TriggerSetelahPanitia;
 
     private DialogTriggerPart2 TriggerSebelumPanitia;
 
@@ -92,10 +92,20 @@ public class SimpanAlurDialog : MonoBehaviour
 
 
         TriggerSebelumPanitia = Panitia.GetComponent<DialogTriggerPart2>();
-        //TriggerSetelahPanitia = Panitia.GetComponent<DialogTriggerPart3>();
+        TriggerSetelahPanitia = Panitia.GetComponent<DialogTriggerPart3>();
 
         TriggerSebelumPanitia.enabled = true;
-        //TriggerSetelahPanitia.enabled = false;
+        TriggerSetelahPanitia.enabled = false;
+
+        TriggerSebelumPanitia.GetComponent<DialogTriggerPart3>().enabled = false;
+
+
+        if (TriggerSebelumPanitia == null || TriggerSetelahPanitia == null)
+        {
+            Debug.LogError("Pastikan TriggerSebelumPanitia dan TriggerSetelahPanitia telah di-assign di Inspector.");
+        }
+
+
 
 
 
@@ -148,13 +158,13 @@ public class SimpanAlurDialog : MonoBehaviour
             TriggerSebelumAnra.enabled = false;
             TriggerSetelahAnra.enabled = true;
             dialogManajerAnra.SetActive(false);
-            dialogManajerAnraSetelah.SetActive(false);
+            dialogManajerAnraSetelah.SetActive(true);
         }
 
 
         if(sudahBicaraValue && sudahBicaraAnra) {
             TriggerSebelumPanitia.enabled = false;
-            //TriggerSetelahPanitia.enabled = true;
+            TriggerSetelahPanitia.enabled = true;
             dialogManajerPanitia.SetActive(false);
             dialogManajerPanitiaSetelah.SetActive(true);
 

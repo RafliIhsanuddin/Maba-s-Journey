@@ -6,9 +6,9 @@ public class DialogTriggerPart3 : MonoBehaviour
 {
 
 
-    [SerializeField] public GameObject Player;
+    [SerializeField] private GameObject Player;
 
-    [SerializeField] public PanitiaPenjagaDialogSelesai dialogPanitiaPenjaga;
+    [SerializeField] private PanitiaPenjagaDialogSelesai dialogPanitiaPenjaga;
 
     private bool triggered;
 
@@ -54,6 +54,8 @@ public class DialogTriggerPart3 : MonoBehaviour
         {
             dialogPanitiaPenjaga.TriggerStartDialog();
         }*/
+
+        GetComponent<DialogTriggerPart3>().enabled = false;
     }
 
 

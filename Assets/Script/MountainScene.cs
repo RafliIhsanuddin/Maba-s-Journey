@@ -9,7 +9,7 @@ public class MountainScene : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        SceneManager.LoadScene("Kampus");
+        SceneManager.LoadScene("KampusGamePart2Timer");
     }
 
 }

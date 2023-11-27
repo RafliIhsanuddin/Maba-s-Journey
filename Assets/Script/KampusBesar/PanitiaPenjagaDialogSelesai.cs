@@ -84,8 +84,14 @@ public class PanitiaPenjagaDialogSelesai : MonoBehaviour
                                                    playerDialogText.rectTransform.localScale.y,
                                                    playerDialogText.rectTransform.localScale.z);
 
-        StartCoroutine(StartDialog());
-        movementScript.NotRun();
+        //StartCoroutine(StartDialog());
+
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(StartDialog());
+            movementScript.NotRun();
+        }
+        //movementScript.NotRun();
     }
 
 

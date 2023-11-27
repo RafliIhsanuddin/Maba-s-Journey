@@ -12,6 +12,8 @@ public class DialogTriggerPart2 : MonoBehaviour
 
     private bool triggered;
 
+    [SerializeField] private DialogTriggerPart3 dialogTriggerPart3;
+
     /*private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.CompareTag("Player") && !triggered){
@@ -44,6 +46,7 @@ public class DialogTriggerPart2 : MonoBehaviour
             // Mengubah skala x dari objek Player menjadi 0.5
             Vector3 currentScale = Player.transform.localScale;
             Player.transform.localScale = new Vector3(0.5f, currentScale.y, currentScale.z);
+            dialogTriggerPart3.enabled = true;
         }
         /*else if (other.CompareTag("Player") && triggered)
         {
