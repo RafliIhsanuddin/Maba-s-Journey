@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogTriggerPart2 : MonoBehaviour
+public class DialogTriggerPart5 : MonoBehaviour
 {
 
 
     [SerializeField] private GameObject Player;
 
-    [SerializeField] private PanitiaPenjagaDialogManajer dialogPanitiaPenjaga;
+    [SerializeField] private PanitiaPenjagaDialogSelesai1 dialogPanitiaPenjaga;
 
     private bool triggered;
-
-    //[SerializeField] private DialogTriggerPart3 dialogTriggerPart3;
 
     /*private void OnTriggerEnter2D(Collider2D other)
     {
@@ -29,10 +27,9 @@ public class DialogTriggerPart2 : MonoBehaviour
 
     }
 
-
     private void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -46,7 +43,6 @@ public class DialogTriggerPart2 : MonoBehaviour
             // Mengubah skala x dari objek Player menjadi 0.5
             Vector3 currentScale = Player.transform.localScale;
             Player.transform.localScale = new Vector3(0.5f, currentScale.y, currentScale.z);
-            //dialogTriggerPart3.enabled = true;
         }
         /*else if (other.CompareTag("Player") && triggered)
         {
@@ -58,6 +54,8 @@ public class DialogTriggerPart2 : MonoBehaviour
         {
             dialogPanitiaPenjaga.TriggerStartDialog();
         }*/
+
+        //GetComponent<DialogTriggerPart3>().enabled = false;
     }
 
 

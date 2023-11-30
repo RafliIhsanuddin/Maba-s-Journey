@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PanitiaPenjagaDialogSelesai : MonoBehaviour
+public class PanitiaPenjagaDialogManajer1 : MonoBehaviour
 {
     [SerializeField] private float typingSpeed = 0.05f;
 
     [SerializeField] private bool PlayerSpeakingFirst;
+
+    [Header("Jam")]
+    [SerializeField] private GameObject Timer;
+    [SerializeField] private GameObject JamOranye;
+    [SerializeField] private Timer time;
+
 
     [Header("Dialog TMP text")]
     [SerializeField] private TextMeshProUGUI playerDialogText;
@@ -41,10 +47,8 @@ public class PanitiaPenjagaDialogSelesai : MonoBehaviour
     [TextArea]
     [SerializeField] private string[] npcDialogSentences;
 
-    GameManager LevelManager;
 
-
-
+    
 
     private bool dialogStart;
 
@@ -66,23 +70,38 @@ public class PanitiaPenjagaDialogSelesai : MonoBehaviour
     private int dialogSelesai;
 
 
+    /*private DialogTriggerPart4 dialogTriggerPart4;
+    private DialogTriggerPart5 dialogTriggerPart5;*/
+
     bool sudahBicara;
 
 
-    /*void Awake()
+    void Awake()
     {
         LoadBicara();
 
         sudahBicara = false;
-    }*/
-
+        
+    }
 
 
 
     private void Start()
     {
 
-        LevelManager = FindObjectOfType<GameManager>();
+
+        /*dialogTriggerPart4 = GetComponent<DialogTriggerPart4>();
+        dialogTriggerPart5 = GetComponent<DialogTriggerPart5>();*/
+
+
+        /*if (dialogTriggerPart4 != null)
+        {
+            // Nonaktifkan DialogTriggerPart2 pada awal permainan
+            
+        }*/
+
+        /*dialogTriggerPart4.enabled = true;
+        dialogTriggerPart5.enabled = false;*/
 
 
         movementScript = FindObjectOfType<PlayerMovement>();
@@ -91,6 +110,11 @@ public class PanitiaPenjagaDialogSelesai : MonoBehaviour
 
     public void TriggerStartDialog()
     {
+
+        Timer.SetActive(false);
+        JamOranye.SetActive(false);
+        time.ResetTimer();
+
         playerIndex = 0;
         npcIndex = 0;
         dialogStart = false;
@@ -100,13 +124,12 @@ public class PanitiaPenjagaDialogSelesai : MonoBehaviour
                                                    playerDialogText.rectTransform.localScale.z);
 
         //StartCoroutine(StartDialog());
-
+        //movementScript.NotRun();
         if (gameObject.activeInHierarchy)
         {
             StartCoroutine(StartDialog());
             movementScript.NotRun();
         }
-        //movementScript.NotRun();
     }
 
 
@@ -123,14 +146,21 @@ public class PanitiaPenjagaDialogSelesai : MonoBehaviour
 
                 if (dialogSelesai == 2)
                 {
-
-                    LevelManager.Quiz();
-                    /*SetSudahBicara(true);
-                    SaveBicara();*/
-                    /*Debug.Log("Berhasil selesai");
+                    Debug.Log("Berhasil selesai");
                     movementScript.MoveToPositionPenjaga();
 
-                    StartCoroutine(ResetDialogSelesaiAfterDelay(1f));*/
+                    Timer.SetActive(true);
+                    JamOranye.SetActive(true);
+
+                    SetSudahBicara(true);
+                    SaveBicara();
+
+                    Debug.Log(GetSudahBicara());
+
+                    
+                    /*dialogTriggerPart4.enabled = false;
+                    dialogTriggerPart5.enabled = true;*/
+                    StartCoroutine(ResetDialogSelesaiAfterDelay(1f));
                 }
             }
         }
@@ -158,7 +188,9 @@ public class PanitiaPenjagaDialogSelesai : MonoBehaviour
     }
 
 
-    /*public void SetSudahBicara(bool value)
+
+
+    public void SetSudahBicara(bool value)
     {
         sudahBicara = value;
         SaveBicara(); // Simpan nilai sudahBicara ke PlayerPrefs setelah diubah
@@ -177,10 +209,14 @@ public class PanitiaPenjagaDialogSelesai : MonoBehaviour
     }
 
 
-    public bool GetSudahBicaraPanitia()
+    public bool GetSudahBicara()
     {
         return sudahBicara;
-    }*/
+    }
+
+
+
+
 
 
     private IEnumerator ResetDialogSelesaiAfterDelay(float delayTime)

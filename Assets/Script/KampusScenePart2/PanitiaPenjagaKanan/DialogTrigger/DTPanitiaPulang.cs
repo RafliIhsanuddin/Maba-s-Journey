@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class DialogTriggerSatriyaSetelah : MonoBehaviour
+public class DTPanitiaPulang : MonoBehaviour
 {
 
-    [SerializeField] private DialogManagerSatriyaSetelah dialogManajer;
+    [SerializeField] private DMPanitiaPulang dialogManajer;
+    [SerializeField] private GameObject dialogPulang;
 
 
 
@@ -40,18 +41,32 @@ public class DialogTriggerSatriyaSetelah : MonoBehaviour
 
 
 
-    private void Update()
+    void Update()
     {
 
-        
+        if (dialogPulang.activeSelf)
+        {
+            Debug.Log("ada");
+        }
+        else
+        {
+            Debug.Log("Hilang");
+        }
+
+
+
+        Debug.Log("Anjing");
+
+
         if (tandaTanya.activeSelf)
         {
             if (Input.GetKeyUp(KeyCode.Z))
             {
                 playerInput.enabled = false;
                 playerInput.GetComponent<PlayerInput>().enabled = false;
-                movementScript.MoveToPositionSatriya();
+                movementScript.MoveToPositionPanitiaPulang();
                 //Debug.Log("Z key pressed");
+                
                 tandaTanya.SetActive(false);
                 
 
@@ -60,11 +75,11 @@ public class DialogTriggerSatriyaSetelah : MonoBehaviour
             }
         }
 
-        if (movementScript.Putarbicara)
+        if (movementScript.PutarbicaraPanitiaPulang)
         {
-            movementScript.Putarbicara = false;
+            movementScript.PutarbicaraPanitiaPulang = false;
             Vector3 currentScale = skala.transform.localScale;
-            skala.transform.localScale = new Vector3(-0.5f, currentScale.y, currentScale.z);
+            skala.transform.localScale = new Vector3(0.5f, currentScale.y, currentScale.z);
             //Debug.Log("bicara");
             startDialog();
         }
@@ -82,8 +97,6 @@ public class DialogTriggerSatriyaSetelah : MonoBehaviour
     {
         //playerInput.enabled = false;
 
-        playerInput.GetComponent<PlayerInput>().enabled = false;
-
         
 
 
@@ -100,7 +113,17 @@ public class DialogTriggerSatriyaSetelah : MonoBehaviour
         if (other.CompareTag("Player")) // Replace "YourTag" with the appropriate tag for the object you want to trigger this
         {
             Debug.Log("Trigger entered");
-            tandaTanya.SetActive(true);
+            //tandaTanya.SetActive(true);
+            if (dialogPulang.activeSelf)
+            {
+                tandaTanya.SetActive(true);
+                //Debug.Log("ada");
+            }
+            /*else
+            {
+                Debug.Log("tidak ada");
+            }*/
+
             triggered = false;
         }
 

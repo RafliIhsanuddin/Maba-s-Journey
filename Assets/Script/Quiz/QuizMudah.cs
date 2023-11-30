@@ -13,8 +13,10 @@ public class QuizMudah : MonoBehaviour
     [SerializeField] Question[] quesList = new Question[2];
     [SerializeField] TextMeshProUGUI questionTxt;
     [SerializeField] TextMeshProUGUI scoreTxt;
-    [SerializeField] float skorPerSoal = 20f;
+    [SerializeField] int skorPerSoal = 20;
     [SerializeField] TMP_InputField Jawaban;
+
+    [SerializeField] SimpanSkor simpanSkor;
 
 
     [System.Serializable]
@@ -26,12 +28,23 @@ public class QuizMudah : MonoBehaviour
     }
 
     int soalKe = 0;
-    float skor = 0;
+    int skor = 0;
 
     QuizTimer timer;
 
-    private bool playerAnswered = false;
+    //private bool playerAnswered = false;
 
+    GameManager LevelManager;
+
+
+    private void Awake()
+    {
+        LevelManager = FindObjectOfType<GameManager>();
+
+        simpanSkor = FindObjectOfType<SimpanSkor>();
+
+
+    }
 
 
 
@@ -52,6 +65,9 @@ public class QuizMudah : MonoBehaviour
     }
 
 
+    
+
+
     public void TampilSoal()
     {
         questionTxt.text = quesList[soalKe].questionTxt;
@@ -70,9 +86,14 @@ public class QuizMudah : MonoBehaviour
         }
         else
         {
-            Debug.Log("Quiz Selesai");
+
+            simpanSkor.SetSkor(skor);
+
+            LevelManager.Kampus2();
+
+            /*Debug.Log("Quiz Selesai");
             Jawaban.text = "Quiz Selesai";
-            Jawaban.enabled = false;
+            Jawaban.enabled = false;*/
         }
         TampilSoal();
     }

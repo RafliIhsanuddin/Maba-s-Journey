@@ -68,7 +68,7 @@ public class QuizTimer : MonoBehaviour
             }
 
             fillFraction = timerValue / TimeToComplete;
-            Debug.Log(isDone + " : " + timerValue + " = " + fillFraction);
+            //Debug.Log(isDone + " : " + timerValue + " = " + fillFraction);
         }
 
     }

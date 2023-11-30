@@ -32,6 +32,19 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Kalah");
     }
 
+    public void Quiz()
+    {
+        SceneManager.LoadScene("JawabPertanyaan");
+    }
+
+
+    public void Kampus2()
+    {
+        SceneManager.LoadScene("KampusGamePart2TimerScene2");
+    }
+
+
+    
 
 
 

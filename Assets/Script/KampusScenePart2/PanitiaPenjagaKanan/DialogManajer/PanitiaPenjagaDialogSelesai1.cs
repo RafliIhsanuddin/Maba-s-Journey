@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PanitiaPenjagaDialogSelesai : MonoBehaviour
+public class PanitiaPenjagaDialogSelesai1 : MonoBehaviour
 {
     [SerializeField] private float typingSpeed = 0.05f;
 
     [SerializeField] private bool PlayerSpeakingFirst;
+
+
+    [Header("Jam")]
+    [SerializeField] private GameObject Timer;
+    [SerializeField] private GameObject JamOranye;
+    [SerializeField] private Timer time;
 
     [Header("Dialog TMP text")]
     [SerializeField] private TextMeshProUGUI playerDialogText;
@@ -69,12 +75,11 @@ public class PanitiaPenjagaDialogSelesai : MonoBehaviour
     bool sudahBicara;
 
 
-    /*void Awake()
+    void Awake()
     {
-        LoadBicara();
-
-        sudahBicara = false;
-    }*/
+        
+        
+    }
 
 
 
@@ -91,6 +96,11 @@ public class PanitiaPenjagaDialogSelesai : MonoBehaviour
 
     public void TriggerStartDialog()
     {
+
+        Timer.SetActive(false);
+        JamOranye.SetActive(false);
+        time.ResetTimer();
+
         playerIndex = 0;
         npcIndex = 0;
         dialogStart = false;
@@ -125,6 +135,7 @@ public class PanitiaPenjagaDialogSelesai : MonoBehaviour
                 {
 
                     LevelManager.Quiz();
+
                     /*SetSudahBicara(true);
                     SaveBicara();*/
                     /*Debug.Log("Berhasil selesai");

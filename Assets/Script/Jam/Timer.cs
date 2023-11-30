@@ -50,13 +50,31 @@ public class Timer : MonoBehaviour
             {
                 isDone = true;
                 timerValue = 0;
-                Debug.Log("Selesai");
+                //Debug.Log("Selesai");
                 LevelManager.Kalah();
             }
 
             fillFraction = timerValue / TimeToComplete;
-            Debug.Log(isDone + " : " + timerValue + " = " + fillFraction);
+            //Debug.Log(isDone + " : " + timerValue + " = " + fillFraction);
         }
 
     }
+
+
+
+
+
+
+    public void ResetTimer()
+    {
+        timerValue = TimeToComplete;
+        isDone = false;
+        fillFraction = 1f; // Reset fill fraction to full
+    }
+
+
+
+
+
+
 }

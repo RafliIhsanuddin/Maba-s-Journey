@@ -8,7 +8,7 @@ public class SimpanAlurDialog : MonoBehaviour
 
 
 
-    [Header("Timer")]
+    [Header("Quiz")]
 
 
 
@@ -49,6 +49,7 @@ public class SimpanAlurDialog : MonoBehaviour
     [Header("Panitia")]
 
     [SerializeField] private PanitiaPenjagaDialogManajer dialogPanitia;
+    [SerializeField] private PanitiaPenjagaDialogSelesai dialogPanitiaSetelah;
     [SerializeField] private GameObject dialogManajerPanitia;
     [SerializeField] private GameObject dialogManajerPanitiaSetelah;
 
@@ -62,7 +63,10 @@ public class SimpanAlurDialog : MonoBehaviour
 
     private DialogTriggerPart2 TriggerSebelumPanitia;
 
-    
+    SimpanSkor simpanSkor;
+
+
+
 
 
 
@@ -100,10 +104,11 @@ public class SimpanAlurDialog : MonoBehaviour
         TriggerSebelumPanitia.GetComponent<DialogTriggerPart3>().enabled = false;
 
 
-        if (TriggerSebelumPanitia == null || TriggerSetelahPanitia == null)
-        {
-            Debug.LogError("Pastikan TriggerSebelumPanitia dan TriggerSetelahPanitia telah di-assign di Inspector.");
-        }
+        
+        simpanSkor = FindObjectOfType<SimpanSkor>();
+
+
+        simpanSkor.SetSkor(0);
 
 
 
@@ -138,6 +143,7 @@ public class SimpanAlurDialog : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         sudahBicaraValue = dialogSatriya.GetSudahBicaraSatriya();
         sudahBicaraAnra = dialogAnra.GetSudahBicaraAnra();
         //Debug.Log(sudahBicaraValue);
@@ -170,6 +176,12 @@ public class SimpanAlurDialog : MonoBehaviour
 
 
         }
+
+
+
+
+
+        Debug.Log(simpanSkor.GetSkor());
 
 
 

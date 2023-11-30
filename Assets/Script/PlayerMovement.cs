@@ -58,6 +58,18 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+
+    private bool putarbicaraPanitiaPulang;
+
+    public bool PutarbicaraPanitiaPulang
+    {
+        get { return putarbicaraPanitiaPulang; }
+        set { putarbicaraPanitiaPulang = value; }
+    }
+
+
+
+
     [SerializeField] private PlayerInput playerInput;
 
     [SerializeField] Animator myAnimator;
@@ -72,6 +84,9 @@ public class PlayerMovement : MonoBehaviour
 
 
     [SerializeField] private Transform targetSupri;
+
+    [SerializeField] private Transform PanitiaPulang;
+
     private bool isMoving;
 
 
@@ -284,7 +299,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector3 currentScale = skala.transform.localScale;
-        skala.transform.localScale = new Vector3(-0.5f, currentScale.y, currentScale.z);
+        skala.transform.localScale = new Vector3(0.5f, currentScale.y, currentScale.z);
 
         putarbicaraAnra = true;
 
@@ -359,6 +374,68 @@ public class PlayerMovement : MonoBehaviour
         // Start the coroutine to move to the target position
         StartCoroutine(MoveToPositionCorSupri(targetPosition));
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public IEnumerator MoveToPositionCorPanitiaPulang(Vector2 targetPosition)
+    {
+        // Set isWalking to true before moving
+
+
+        // Move the player to the target position
+        while (Vector2.Distance(transform.position, targetPosition) > 0.01f)
+        {
+            float horizontalMovement = Mathf.Sign(targetPosition.x - transform.position.x);
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, runSpeed * Time.deltaTime);
+
+            // Flip the sprite based on the direction of movement
+            transform.localScale = new Vector2(0.5f * horizontalMovement, 0.5f);
+
+            myAnimator.SetBool("isWalking", true);
+
+            playerInput.enabled = false;
+
+            yield return null;
+        }
+
+        Vector3 currentScale = skala.transform.localScale;
+        skala.transform.localScale = new Vector3(-0.5f, currentScale.y, currentScale.z);
+
+        putarbicaraPanitiaPulang = true;
+
+        // Set isWalking to false after reaching the target position
+        myAnimator.SetBool("isWalking", false);
+    }
+
+    public void MoveToPositionPanitiaPulang()
+    {
+        Vector2 targetPosition = PanitiaPulang.position;
+
+        // Stop any existing coroutine before starting a new one
+        StopAllCoroutines();
+
+        // Start the coroutine to move to the target position
+        StartCoroutine(MoveToPositionCorPanitiaPulang(targetPosition));
+
+    }
+
+
+
+
+
 
 
 }
