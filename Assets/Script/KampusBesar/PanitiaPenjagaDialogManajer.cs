@@ -9,9 +9,16 @@ public class PanitiaPenjagaDialogManajer : MonoBehaviour
 
     [SerializeField] private bool PlayerSpeakingFirst;
 
+    [Header("Jam")]
+    [SerializeField] private GameObject Timer;
+    [SerializeField] private GameObject JamOranye;
+    [SerializeField] private Timer time;
+
     [Header("Dialog TMP text")]
     [SerializeField] private TextMeshProUGUI playerDialogText;
     [SerializeField] private TextMeshProUGUI npcDialogText;
+
+
 
 
     [Header("Continue Buttons")]
@@ -97,6 +104,8 @@ public class PanitiaPenjagaDialogManajer : MonoBehaviour
                                                    playerDialogText.rectTransform.localScale.y,
                                                    playerDialogText.rectTransform.localScale.z);
 
+        JamOranye.SetActive(false);
+
         //StartCoroutine(StartDialog());
         //movementScript.NotRun();
         if (gameObject.activeInHierarchy)
@@ -122,6 +131,7 @@ public class PanitiaPenjagaDialogManajer : MonoBehaviour
                 {
                     Debug.Log("Berhasil selesai");
                     movementScript.MoveToPositionPenjaga();
+                    JamOranye.SetActive(true);
 
                     StartCoroutine(ResetDialogSelesaiAfterDelay(1f));
                 }

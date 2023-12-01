@@ -44,18 +44,7 @@ public class DTPanitiaPulang : MonoBehaviour
     void Update()
     {
 
-        if (dialogPulang.activeSelf)
-        {
-            Debug.Log("ada");
-        }
-        else
-        {
-            Debug.Log("Hilang");
-        }
-
-
-
-        Debug.Log("Anjing");
+        
 
 
         if (tandaTanya.activeSelf)

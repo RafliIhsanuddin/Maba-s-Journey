@@ -69,6 +69,16 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+    private bool putarbicaraKeluar;
+
+    public bool PutarbicaraKeluar
+    {
+        get { return putarbicaraKeluar; }
+        set { putarbicaraKeluar = value; }
+    }
+
+
+
 
     [SerializeField] private PlayerInput playerInput;
 
@@ -86,6 +96,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform targetSupri;
 
     [SerializeField] private Transform PanitiaPulang;
+
+
+    [SerializeField] private Transform Keluar;
 
     private bool isMoving;
 
@@ -429,6 +442,65 @@ public class PlayerMovement : MonoBehaviour
 
         // Start the coroutine to move to the target position
         StartCoroutine(MoveToPositionCorPanitiaPulang(targetPosition));
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public IEnumerator MoveToPositionCorKeluar(Vector2 targetPosition)
+    {
+        // Set isWalking to true before moving
+
+
+        // Move the player to the target position
+        while (Vector2.Distance(transform.position, targetPosition) > 0.01f)
+        {
+            float horizontalMovement = Mathf.Sign(targetPosition.x - transform.position.x);
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, runSpeed * Time.deltaTime);
+
+            // Flip the sprite based on the direction of movement
+            transform.localScale = new Vector2(0.5f * horizontalMovement, 0.5f);
+
+            myAnimator.SetBool("isWalking", true);
+
+            playerInput.enabled = false;
+
+            yield return null;
+        }
+
+        Vector3 currentScale = skala.transform.localScale;
+        skala.transform.localScale = new Vector3(-0.5f, currentScale.y, currentScale.z);
+
+        putarbicaraKeluar = true;
+
+        // Set isWalking to false after reaching the target position
+        myAnimator.SetBool("isWalking", false);
+    }
+
+    public void MoveToPositionKeluar()
+    {
+        Vector2 targetPosition = Keluar.position;
+
+        // Stop any existing coroutine before starting a new one
+        StopAllCoroutines();
+
+        // Start the coroutine to move to the target position
+        StartCoroutine(MoveToPositionCorKeluar(targetPosition));
 
     }
 

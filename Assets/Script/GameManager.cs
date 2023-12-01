@@ -19,12 +19,29 @@ public class GameManager : MonoBehaviour
     }*/
 
 
+    public void FirstScene()
+    {
+        SceneManager.LoadScene("Mountain Scene");
+    }
+
+
+    public void Quit()
+    {
+        Application.Quit();
+        Debug.Log("Quit");
+    }
+
+
+
 
     public void Kampus()
     {
 
         SceneManager.LoadScene("KampusGamePart2Timer");
     }
+
+
+
 
 
     public void Kalah()

@@ -45,6 +45,17 @@ public class SimpanAlurDialog1 : MonoBehaviour
     private DialogTriggerAnra TriggerSebelumAnra;*/
 
 
+    [Header("Keluar")]
+    [SerializeField] private GameObject TriggerKeluar;
+
+
+
+
+
+
+
+
+
 
     [Header("Panitia")]
 
@@ -111,7 +122,7 @@ public class SimpanAlurDialog1 : MonoBehaviour
         TriggerPanitiaBerhasil = Panitia.GetComponent<DialogTriggerPart6>();
         TriggerPulang = Panitia.GetComponent<DTPanitiaPulang>();
 
-        Trigger = Panitia.GetComponent<DTTes>();
+        
         TriggerSebelumPanitia1.GetComponent<DialogTriggerPart5>().enabled = false;
 
 
@@ -121,11 +132,11 @@ public class SimpanAlurDialog1 : MonoBehaviour
             TriggerSetelahPanitia1.enabled = false;
             TriggerPanitiaBerhasil.enabled = true;
             TriggerPulang.enabled = false;
-            Trigger.enabled = false;
             dialogManajerPanitia1.SetActive(false);
             dialogManajerPanitiaSetelah1.SetActive(false);
             DialogManajerPanitiaBerhasil.SetActive(true);
             DMPanitiaPulang.SetActive(false);
+            TriggerKeluar.SetActive(false);
         }
         else
         {
@@ -133,11 +144,11 @@ public class SimpanAlurDialog1 : MonoBehaviour
             TriggerSetelahPanitia1.enabled = false;
             TriggerPanitiaBerhasil.enabled = false;
             TriggerPulang.enabled = false;
-            Trigger.enabled = false;
             dialogManajerPanitia1.SetActive(true);
             dialogManajerPanitiaSetelah1.SetActive(false);
             DialogManajerPanitiaBerhasil.SetActive(false);
             DMPanitiaPulang.SetActive(false);
+            TriggerKeluar.SetActive(false);
         }
 
         
@@ -197,11 +208,11 @@ public class SimpanAlurDialog1 : MonoBehaviour
             TriggerSetelahPanitia1.enabled = true;
             TriggerPanitiaBerhasil.enabled = false;
             TriggerPulang.enabled = false;
-            Trigger.enabled = false;
             DialogManajerPanitiaBerhasil.SetActive(false);
             dialogManajerPanitia1.SetActive(false);
             dialogManajerPanitiaSetelah1.SetActive(true);
             DMPanitiaPulang.SetActive(false);
+            TriggerKeluar.SetActive(false);
         }
 
 
@@ -217,11 +228,11 @@ public class SimpanAlurDialog1 : MonoBehaviour
             TriggerSetelahPanitia1.enabled = false;
             TriggerPanitiaBerhasil.enabled = false;
             TriggerPulang.enabled = true;
-            Trigger.enabled = true;
             dialogManajerPanitia1.SetActive(false);
             dialogManajerPanitiaSetelah1.SetActive(false);
             DialogManajerPanitiaBerhasil.SetActive(false);
             DMPanitiaPulang.SetActive(true);
+            TriggerKeluar.SetActive(true);
         }
 
         /*if (dialogBerhasil.GetSudahBicara())
@@ -230,7 +241,7 @@ public class SimpanAlurDialog1 : MonoBehaviour
         }*/
 
 
-        //Debug.Log(dialogBerhasil.GetSudahBicara());
+        Debug.Log(dialogBerhasil.GetSudahBicara());
 
 
         //Debug.Log(dialogPanitia.GetSudahBicara());
